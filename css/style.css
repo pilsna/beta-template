@@ -16,74 +16,11 @@
 	margin-right: 10px;
 	margin-left: 10px;
 }
-header {
-	background-color: #222222;
-	padding: 15px 0;
-	margin-bottom: 25px;
+.search {
+	padding-right: 5px;
+	padding-left: 5px;
 }
-a {
-	line-height: inherit;
-}
-
-img {
-max-width: 100%;
-height: auto;
-display: inline-block;
-vertical-align: middle;
-
-}
-@media all and (max-width: 767px) {
-  html {
-    overflow-x: hidden; }
-
-  body.off-canvas {
-    padding: 0;
-    margin: 0;
-    overflow-x: hidden; } 
-}
-
-a.sidebar-button img {
-    margin-top: -6px;
-    width: 23px;
-}
-a.sidebar-button h4 {
-    color: #FFFFFF;
-    display: inline !important;
-    font-size: 22px !important;
-    font-weight: bold !important;
-    line-height: 1;
-    margin-left: 10px;
-}
-a.sidebar-button {
-    display: inline-block;
-    margin-left: 15px;
-}
-
-
-/* Off canvas layout CSS/JS provided by or adapted from work by Jason Weaver and Luke Wroblewski Requires globals.css grid.css */
-body.off-canvas {
-  padding: 0;
-  margin: 0; }
-
-canvas {
-  background: #23B9D2; }
-
-#sidebar .container {
-  width: 100%; }
-
-#sidebar .row {
-  overflow: hidden; }
-
-#sidebar .row .row {
-  overflow: visible; }
-
-#sidebar .paneled .container {
-  overflow: hidden; }
-
-#sidebar {
-    background: none repeat scroll 0 0 #333333;
-    box-shadow: -2px 0 8px -1px #111111 inset;
-    height: 100%;
-    padding: 10px 0 0;
-    position: absolute;
+li.has-button {
+	padding-right: 5px;
+	padding-left: 5px;
 }
