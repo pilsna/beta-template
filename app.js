@@ -12,10 +12,10 @@ var routes = require('./routes');
 app.configure(function(){
   app.set('views', __dirname + '/views');
 
-  var jshtml = require('jshtml-express');
-  app.engine('jshtml', jshtml);
-  app.set('view engine', 'jshtml');
-
+  //var jshtml = require('jshtml-express');
+  //app.engine('jshtml', jshtml);
+  app.engine('.html', require('ejs').__express)
+  app.set('view engine', 'html');
   //app.set('view engine', 'jade');
   
   app.use(express.bodyParser());
