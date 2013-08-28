@@ -1,6 +1,10 @@
-require(["esri/map",  "esri/geometry/Multipoint",  
+require(["esri/map", "esri/arcgis/utils", "esri/geometry/Multipoint",  
     "dojo/on", "dojo/dom", "dojo/domReady!"], 
-	function(){
+    loadWebmap
+
+);
+
+function loadMap(){
 		var map = new esri.Map("mapcontainer", {
 			basemap: "streets",
 			center: [-122.67, 45.52],
@@ -8,12 +12,20 @@ require(["esri/map",  "esri/geometry/Multipoint",
 		});
 
 }
-);
 
-
-
-$(document).on('click', '#sidebarButton', function(e) {
-  e.preventDefault();
-  $('body').toggleClass('active');
-});
-
+function loadWebmap(){
+	var webmap;
+	var urlObject = esri.urlToObject(document.location.href);
+	if (urlObject.query === null) {
+		loadMap();
+	} else {
+		webmap = urlObject.query.webmap;	
+		esri.arcgis.utils.createMap(webmap,"mapcontainer",{
+		   mapOptions:{
+		     slider:false
+		   }
+		}).then(function(response){
+		    map = response.map;
+		});
+	}
+}
