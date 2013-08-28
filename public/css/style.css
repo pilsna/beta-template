@@ -9,12 +9,16 @@
 	margin-right: 10px;
 }
 .mapcontainer {
-	height: 500px;
+	/*height:600px;*/
+	height: 50em;
 }
-.row {
+
+/*.row {
 	margin-right: 10px;
 	margin-left: 10px;
-}
+}*/
+
+
 /*
 .search {
 	padding-right: 5px;
