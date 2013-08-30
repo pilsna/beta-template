@@ -7,7 +7,6 @@ var app = express();
 var server = http.createServer(app);
 var routes = require('./routes');
 
-
 //CORS middleware
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -16,16 +15,12 @@ var allowCrossDomain = function(req, res, next) {
 
     next();
 }
-// Configuration
 
+// Configuration
 app.configure(function(){
 	app.set('views', __dirname + '/views');
-
-	//var jshtml = require('jshtml-express');
-	//app.engine('jshtml', jshtml);
 	app.engine('.html', require('ejs').__express)
 	app.set('view engine', 'html');
-	//app.set('view engine', 'jade');
 
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
@@ -33,8 +28,6 @@ app.configure(function(){
 	app.use(allowCrossDomain);
 	app.use(express.static(__dirname + '/public'));
 });
-
-
 
 app.configure('development', function(){
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));

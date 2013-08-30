@@ -1,4 +1,4 @@
-require(["esri/map", "esri/arcgis/utils", "esri/geometry/Multipoint",  
+require(["esri/map", "esri/arcgis/utils", "esri/IdentityManager",  
     "dojo/on", "dojo/dom", "dojo/domReady!"], 
     loadWebmap
 
