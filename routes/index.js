@@ -9,4 +9,7 @@ module.exports = function(app) {
    app.get('/esri', function(req, res){
      res.render('esri', { title: 'template' })
    });
+   app.get('/simple', function(req, res){
+     res.render('simple/simple', { title: 'template' })
+   });
 };

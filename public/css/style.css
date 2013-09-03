@@ -8,7 +8,7 @@
 	margin-left: 10px;
 	margin-right: 10px;
 }
-.mapcontainer {
+#mapcontainer {
 	/*height:600px;*/
 	height: 50em;
 }
