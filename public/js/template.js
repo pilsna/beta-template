@@ -142,8 +142,7 @@ function(
             OAuthHelper.init({
                 appId: id,
                 portal: portal,
-                expiration: (14 * 24 * 60), //2 weeks (in minutes)
-                popup: true
+                expiration: (14 * 24 * 60) //2 weeks (in minutes)
             });
         },
         _getLocalization: function() {
