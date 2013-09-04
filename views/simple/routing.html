@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="/css/simple-style.css">
 	<link rel="stylesheet" href="http://arcgisjs.azurewebsites.net/esri/3.6compact/js/esri/css/esri.css">
 	<link rel="stylesheet" href="http://arcgisjs.azurewebsites.net/esri/3.6compact/js/dojo/dijit/themes/claro/claro.css">
-	<script src="js/vendor/custom.modernizr.js"></script>
+	<script src="/js/vendor/custom.modernizr.js"></script>
 </head>
 
 <body>
@@ -24,7 +24,17 @@
 	</script>
 
 	<script src="http://arcgisjs.azurewebsites.net/esri/3.6compact.js"></script>
-	<script src="/js/webmap.js"></script>
+	<script type="text/javascript">
+		var dojoConfig = { 
+		    baseUrl: '/js',
+			packages: [{ 
+				name: 'oauth',  
+				location: 'oauth' 
+			}]
+		};
+	</script>
+	<script src="/js/routing.js"></script>
+	<!--script src="/js/oauthhelper.js"></script-->
 </body>
 
 </html>
