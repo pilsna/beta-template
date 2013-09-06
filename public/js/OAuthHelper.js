@@ -23,7 +23,7 @@ function(lang, dojoJson, Url, cookie, Deferred, ioquery, idManager) {
             this.portalUrl = this.portal + "/sharing/rest";
             // Read OAuth response from the page url fragment if available,
             // and register with identity manager
-            this.checkOAuthResponse(window.location.href, true);
+            this.checkOAuthResponse(window.location.href, this.clearHash);
             // Read token from cookie if available, and register
             // with identity manager
             this.checkCookie();
