@@ -110,7 +110,7 @@ function(
                 if (this.map.loaded) {
                     // do something with the map
                     //console.log(this.map);
-                    this.map.on('click', routeHandler);
+                    this.map.on('click', updateInfo);
                     this._mapLoaded();
                 } else {
                     on(this.map, "load", lang.hitch(this, function() {
