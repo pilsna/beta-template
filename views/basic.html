@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
     <!--Use protocol relative urls that way if the browser is viewing the page via HTTPS the js/css file will be requested using the HTTPS protocol-->
+    <link rel="stylesheet" href="/css/normalize.css">
     <link rel="stylesheet" href="http://arcgisjs.azurewebsites.net/esri/3.6compact/js/esri/css/esri.css">
     <link rel="stylesheet" href="http://arcgisjs.azurewebsites.net/esri/3.6compact/js/dojo/dijit/themes/claro/claro.css">
     <!--Load any application specific styles-->
@@ -14,7 +15,9 @@
 </head>
 <body class="claro">
    <!--The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. --> 
-   <div id="mapDiv" dir="ltr"></div>
+    <div id="mapDiv" dir="ltr">
+        <div id="infobox" class="info"><h3>info box</h3></div>
+    </div>
     <script type="text/javascript">
         var package_path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/tmpl/'));
         var dojoConfig = {

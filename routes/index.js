@@ -4,7 +4,8 @@
 
 var webmaps = {
 	'wind': 'a30160193b1f4922be09d62940f65696',
-	'andet': 'asdf'
+	'andet': 'asdf',
+	'kommuner': '44e294d62cef4ac2b5d1e353fc0d599f'
 };
 
 module.exports = function(app) {
@@ -28,7 +29,6 @@ module.exports = function(app) {
 	});
 	app.get('/tmpl/:template', function(req, res){
 		var mapname = req.params.mapname;
-		console.log(mapname);
 		if (mapname !== undefined) {
 			res.redirect('/tmpl/' + req.params.template + '?webmap=' + webmaps[req.params.mapname])
 		} else {

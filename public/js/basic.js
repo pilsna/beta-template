@@ -1,5 +1,6 @@
 define([
     "dojo/ready", 
+    "dojo/on",
     "dojo/_base/declare",
     "dojo/_base/lang",
     "esri/arcgis/utils",
@@ -13,6 +14,7 @@ define([
 ],
 function(
     ready, 
+    on,
     declare,  
     lang,
     arcgisUtils,
@@ -48,7 +50,8 @@ function(
                     //Optionally define additional map config here for example you can 
                     //turn the slider off, display info windows, disable wraparound 180, slider position and more. 
                 },
-                bingMapsKey: this.config.bingmapskey
+                bingMapsKey: this.config.bingmapskey,
+                ignorePopups: true
             }).then(lang.hitch(this, function(response) {
                 //Once the map is created we get access to the response which provides important info 
                 //such as the map, operational layers, popup info and more. This object will also contain
@@ -57,60 +60,27 @@ function(
                 //console.log(this.config);
                 this.map = response.map;
 
-                function routeHandler(clickEvent){
-                	console.log('routeHandler called, graphicsLayer:');
-                	//console.log(closestTask);
-                	//console.log(this.getLayer(this.graphicsLayerIds[0]))
-                	var inPoint = new Point(clickEvent.mapPoint.x, clickEvent.mapPoint.y, this.spatialReference);
-                	var location = new Graphic(inPoint);
-                	var features = [];
-                	features.push(location);
-                	var incidents = new FeatureSet();
-                	incidents.features = features;
-                	closestParams.incidents = incidents;
-
-                	var graphicsLayer = this.getLayer(this.graphicsLayerIds[0]);
-                	var facilities = new FeatureSet();
-                	//facilities.geometry = this.extent;
-                	facilities.features = graphicsLayer.graphics;
-                	closestParams.facilities = facilities; 
-                	//this.getLayer(this.graphicsLayerIds[0]).graphics;
-
-                	console.log(IdentityManager);
-                	//closestParams.token = IdentityManager.credentials[0].token;
- 					//closestParams.f = 'json';
-                	closestTask.solve(closestParams, function(solveResult){
-                		var directions = solveResult.directions;
-                		console.log(directions);
-                		array.forEach(solveResult.routes, function(route, index){
-							//build an array of route info
-							var attr = array.map(solveResult.directions[index].features,function(feature){
-								return feature.attributes.text;
-							});
-							console.log(route)
-							/*
-							var infoTemplate = new InfoTemplate("Attributes", "${*}");
-
-							route.setInfoTemplate(infoTemplate);
-							route.setAttributes(attr);
-
-							routeGraphicLayer.add(route);
-							dom.byId("directionsDiv").innerHTML = "Hover over the route to view directions";
-							*/
-						});
-
-						//display any messages
-						if(solveResult.messages.length > 0){
-							//dom.byId("directionsDiv").innerHTML = "<b>Error:</b> " + solveResult.messages[0];
-							console.log(solveResult.messages[0]);
-						}      
-					});
+                function updateInfo(clickEvent){
+                    console.log(clickEvent.graphic.attributes.KomNavn);
+                    if (clickEvent.graphic !== undefined) {
+                        var box = document.getElementById("infobox");
+                        if (clickEvent.graphic.infoTemplate === undefined){
+                            box.innerHTML = '<h3>' + clickEvent.graphic.attributes.KomNavn + '</h3>';
+                        } else {
+                            box.innerHTML = clickEvent.graphic.infoTemplate;
+                        }
+                        box.style.display = 'block';
+                    }
+                    console.log(clickEvent);
                 }
 
                 if (this.map.loaded) {
                     // do something with the map
-                    //console.log(this.map);
-                    this.map.on('click', updateInfo);
+                    console.log(this);
+                    //dojo.connect(this.map.graphics, 'onClick', updateInfo);
+                    //this.map.graphics.on('click', updateInfo);
+                    on(this.map, 'click', updateInfo);
+                    //this.map.on('click', updateInfo);
                     this._mapLoaded();
                 } else {
                     on(this.map, "load", lang.hitch(this, function() {
