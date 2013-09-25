@@ -1,4 +1,4 @@
-var clicked; 
+var clicked, map; 
 if (!String.prototype.format) {
   String.prototype.format = function() {
     var args = arguments[0];
@@ -16,6 +16,7 @@ define([
     "dojo/on",
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/_base/array",
     "esri/arcgis/utils",
     //"esri/IdentityManager",
     "esri/geometry/Point",
@@ -28,6 +29,7 @@ function(
     on,
     declare,  
     lang,
+    array,
     arcgisUtils,
     //IdentityManager,
     Point,
@@ -70,8 +72,19 @@ function(
                 //console.log(response);
                 function updateInfo(clickEvent){
                     //console.log(response);
-                    var html = response.itemInfo.itemData.operationalLayers[0].popupInfo.description;
-                    //console.log(html);
+                    var id = clickEvent.graphic._graphicsLayer.id
+                    var layers = response.itemInfo.itemData.operationalLayers;
+                    var currentId = 0;
+                    array.forEach(layers, function(layer, i){
+                        if (layer.id === id){
+                            currentId = i;
+                        }
+                    });
+                    
+                    var html = layers[currentId].popupInfo.description;
+                    //var layerId = clickEvent.graphic._graphicsLayer.id;
+                    //var layer = response.map.getLayer(layerId);
+                    //console.log(layer);
                     var formatted = html.format(clickEvent.graphic.attributes)
                     //console.log('formatted: ' + formatted);
                     //console.log(clickEvent.graphic.attributes.KomNavn);
@@ -99,6 +112,7 @@ function(
                     on(closebutton, 'click', function(){
                         this.parentElement.style.visibility = 'hidden';
                     });
+                    map = this.map;
                     this._mapLoaded();
                 } else {
                     on(this.map, "load", lang.hitch(this, function() {
