@@ -83,7 +83,7 @@ function(
                         } else {
                             text.innerHTML = clickEvent.graphic.infoTemplate;
                         }
-                        box.style.display = 'block';
+                        box.style.visibility = 'visible';
                     }
                     clicked = clickEvent;
                     //console.log(clicked);
@@ -95,6 +95,10 @@ function(
                     //dojo.connect(this.map.graphics, 'onClick', updateInfo);
                     //this.map.graphics.on('click', updateInfo);
                     on(this.map, 'click', updateInfo);
+                    var closebutton = document.getElementById("closebutton");
+                    on(closebutton, 'click', function(){
+                        this.parentElement.style.visibility = 'hidden';
+                    });
                     this._mapLoaded();
                 } else {
                     on(this.map, "load", lang.hitch(this, function() {
