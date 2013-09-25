@@ -1,16 +1,27 @@
+var clicked; 
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments[0];
+    return this.replace(/{(\w+)}/g, function(match, key) { 
+      return ((typeof args[key] !== 'undefined') && (args[key] !== null))
+        ? args[key]
+        : '&nbsp;'
+      ;
+    });
+  };
+}
+
 define([
     "dojo/ready", 
     "dojo/on",
     "dojo/_base/declare",
     "dojo/_base/lang",
     "esri/arcgis/utils",
-    "esri/IdentityManager",
-    "esri/tasks/ClosestFacilityTask",
-    "esri/tasks/ClosestFacilityParameters",
+    //"esri/IdentityManager",
     "esri/geometry/Point",
-    "esri/graphic",
-    "esri/tasks/FeatureSet",
-    "esri/tasks/DataLayer"
+    "esri/graphic"
+    //"esri/tasks/FeatureSet",
+    //"esri/tasks/DataLayer"
 ],
 function(
     ready, 
@@ -18,13 +29,11 @@ function(
     declare,  
     lang,
     arcgisUtils,
-    IdentityManager,
-    ClosestFacilityTask,
-    ClosestFacilityParameters,
+    //IdentityManager,
     Point,
-    Graphic,
-    FeatureSet,
-    DataLayer
+    Graphic
+    //FeatureSet,
+    //DataLayer
 ) {
     return declare("", null, {
         config: {},
@@ -43,8 +52,6 @@ function(
         },
         //create a map based on the input web map id
         _createWebMap: function() {
-            var closestTask = new ClosestFacilityTask('http://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World')
-            var closestParams = new ClosestFacilityParameters();
             arcgisUtils.createMap(this.config.webmap, "mapDiv", {
                 mapOptions: {
                     //Optionally define additional map config here for example you can 
@@ -59,28 +66,35 @@ function(
                 //Here' we'll use it to update the application to match the specified color theme.  
                 //console.log(this.config);
                 this.map = response.map;
-
+                //console.log('response: ');
+                //console.log(response);
                 function updateInfo(clickEvent){
-                    console.log(clickEvent.graphic.attributes.KomNavn);
+                    //console.log(response);
+                    var html = response.itemInfo.itemData.operationalLayers[0].popupInfo.description;
+                    //console.log(html);
+                    var formatted = html.format(clickEvent.graphic.attributes)
+                    //console.log('formatted: ' + formatted);
+                    //console.log(clickEvent.graphic.attributes.KomNavn);
                     if (clickEvent.graphic !== undefined) {
                         var box = document.getElementById("infobox");
+                        var text = document.getElementById("infotext");
                         if (clickEvent.graphic.infoTemplate === undefined){
-                            box.innerHTML = '<h3>' + clickEvent.graphic.attributes.KomNavn + '</h3>';
+                            text.innerHTML = formatted;
                         } else {
-                            box.innerHTML = clickEvent.graphic.infoTemplate;
+                            text.innerHTML = clickEvent.graphic.infoTemplate;
                         }
                         box.style.display = 'block';
                     }
-                    console.log(clickEvent);
+                    clicked = clickEvent;
+                    //console.log(clicked);
                 }
 
                 if (this.map.loaded) {
                     // do something with the map
-                    console.log(this);
+                    // console.log(this);
                     //dojo.connect(this.map.graphics, 'onClick', updateInfo);
                     //this.map.graphics.on('click', updateInfo);
                     on(this.map, 'click', updateInfo);
-                    //this.map.on('click', updateInfo);
                     this._mapLoaded();
                 } else {
                     on(this.map, "load", lang.hitch(this, function() {

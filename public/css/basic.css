@@ -25,11 +25,20 @@ html,body {
 	border-width: 2px;
 	border-color: grey;
 	box-shadow: 3px 3px 5px rgba(50, 50, 50, 0.85);
+	border-radius: 3px;
 	width: 200px;
+	max-width: 80%;
 	background: white;
-	padding: 5px;
+	padding: 15px;
 	display: none;
 }
 h3 {
 	margin-left:20px;
+}
+img#closebutton{
+	position: absolute; 
+	top: 0; 
+	right: 0;
+	padding-top: 5px;
+	padding-right: 5px;
 }
