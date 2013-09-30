@@ -68,11 +68,14 @@ function(
                 //Here' we'll use it to update the application to match the specified color theme.  
                 //console.log(this.config);
                 this.map = response.map;
+                //var higlightLayer = new GraphicsLayer("highlight");
+                //this.map.addLayer(higlightLayer);
                 //console.log('response: ');
                 //console.log(response);
                 function updateInfo(clickEvent){
                     //console.log(response);
                     var id = clickEvent.graphic._graphicsLayer.id
+                    console.log(id);
                     var layers = response.itemInfo.itemData.operationalLayers;
                     var currentId = 0;
                     array.forEach(layers, function(layer, i){
@@ -80,7 +83,7 @@ function(
                             currentId = i;
                         }
                     });
-                    
+                    console.log(currentId);
                     var html = layers[currentId].popupInfo.description;
                     //var layerId = clickEvent.graphic._graphicsLayer.id;
                     //var layer = response.map.getLayer(layerId);
@@ -97,11 +100,28 @@ function(
                             text.innerHTML = clickEvent.graphic.infoTemplate;
                         }
                         box.style.visibility = 'visible';
+                        highlight(clickEvent);
                     }
-                    clicked = clickEvent;
-                    //console.log(clicked);
+                   
                 }
-
+                function highlight(event) {
+                    response.map.graphics.clear();
+                    //console.log("event fired");
+                    //console.log(event);
+                    if (event.graphic !== undefined) {
+                        //console.log(event.graphic.symbol);
+                        var highlightSymbol = 
+                            new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, 
+                            new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, 
+                            new dojo.Color([255,0,0]), 3), new dojo.Color([125,125,125,0.35]));
+                        //console.log(event.graphic);
+                        var highlightGraphic = new esri.Graphic(event.graphic.geometry, highlightSymbol);
+                        response.map.graphics.add(highlightGraphic);
+                    }
+                }
+                function info(layer) {
+                    return 'id=' + layer.id + ' graphicsLayerIds=' + response.map.graphicsLayerIds + ' layerIds=' + response.map.layerIds;
+                }
                 if (this.map.loaded) {
                     // do something with the map
                     // console.log(this);
@@ -112,7 +132,13 @@ function(
                     on(closebutton, 'click', function(){
                         this.parentElement.style.visibility = 'hidden';
                     });
-                    map = this.map;
+                    console.log(info(this.map.graphics));
+                    this.map.graphics.enableMouseEvents();
+                    //console.log(this.map);
+                    //on(this.map, 'mouse-over', highlight);
+                    //on(this.map, 'mouse-out', function(event){
+                        //response.map.graphics.clear();
+                    //});
                     this._mapLoaded();
                 } else {
                     on(this.map, "load", lang.hitch(this, function() {
