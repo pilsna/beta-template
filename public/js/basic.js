@@ -1,4 +1,3 @@
-var clicked, map; 
 if (!String.prototype.format) {
   String.prototype.format = function() {
     var args = arguments[0];
@@ -68,13 +67,25 @@ function(
                 //Here' we'll use it to update the application to match the specified color theme.  
                 //console.log(this.config);
                 this.map = response.map;
-                //var higlightLayer = new GraphicsLayer("highlight");
-                //this.map.addLayer(higlightLayer);
-                //console.log('response: ');
-                //console.log(response);
+                function makeDarker(color, delta, alpha){
+                    function add(channel){
+                        var newChannel = channel + delta;
+                        if (newChannel > 255) {
+                            return 255;
+                        } else {
+                            return newChannel;
+                        }
+                    }
+                    console.log("color=" + color);
+                    if (color === null) {
+                        return color;
+                    } else {
+                        var darker =  new dojo.Color([add(color.r), add(color.g), add(color.b), alpha]);
+                        return darker;
+                    }
+                }
                 function updateInfo(clickEvent){
-                    //console.log(response);
-                    var id = clickEvent.graphic._graphicsLayer.id
+                    var id = clickEvent.graphic._graphicsLayer.id;
                     console.log(id);
                     var layers = response.itemInfo.itemData.operationalLayers;
                     var currentId = 0;
@@ -83,14 +94,8 @@ function(
                             currentId = i;
                         }
                     });
-                    console.log(currentId);
                     var html = layers[currentId].popupInfo.description;
-                    //var layerId = clickEvent.graphic._graphicsLayer.id;
-                    //var layer = response.map.getLayer(layerId);
-                    //console.log(layer);
                     var formatted = html.format(clickEvent.graphic.attributes)
-                    //console.log('formatted: ' + formatted);
-                    //console.log(clickEvent.graphic.attributes.KomNavn);
                     if (clickEvent.graphic !== undefined) {
                         var box = document.getElementById("infobox");
                         var text = document.getElementById("infotext");
@@ -106,15 +111,13 @@ function(
                 }
                 function highlight(event) {
                     response.map.graphics.clear();
-                    //console.log("event fired");
-                    //console.log(event);
                     if (event.graphic !== undefined) {
-                        //console.log(event.graphic.symbol);
+                        var fillColor = event.graphic._shape.fillStyle;
+                        var strokeColor = event.graphic._shape.strokeStyle.color;
                         var highlightSymbol = 
                             new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, 
                             new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, 
-                            new dojo.Color([255,0,0]), 3), new dojo.Color([125,125,125,0.35]));
-                        //console.log(event.graphic);
+                            makeDarker(strokeColor, -40, 0.5), 6), makeDarker(fillColor, -40, 0.5));
                         var highlightGraphic = new esri.Graphic(event.graphic.geometry, highlightSymbol);
                         response.map.graphics.add(highlightGraphic);
                     }
@@ -123,10 +126,6 @@ function(
                     return 'id=' + layer.id + ' graphicsLayerIds=' + response.map.graphicsLayerIds + ' layerIds=' + response.map.layerIds;
                 }
                 if (this.map.loaded) {
-                    // do something with the map
-                    // console.log(this);
-                    //dojo.connect(this.map.graphics, 'onClick', updateInfo);
-                    //this.map.graphics.on('click', updateInfo);
                     on(this.map, 'click', updateInfo);
                     var closebutton = document.getElementById("closebutton");
                     on(closebutton, 'click', function(){
