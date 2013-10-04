@@ -66,3 +66,9 @@ img#closebutton{
   left: 20px;
   z-index: 50;
 }
+#homebutton {
+	position: absolute;
+	top: 138px;
+	left: 20px;
+	z-index: 50;
+}

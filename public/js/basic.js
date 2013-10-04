@@ -18,6 +18,7 @@ define([
     "dojo/_base/array",
     "esri/arcgis/utils",
     "esri/dijit/LocateButton",
+    "esri/dijit/HomeButton",
     "esri/geometry/Point",
     "esri/graphic"
 ],
@@ -29,11 +30,9 @@ function(
     array,
     arcgisUtils,
     LocateButton,
-    //IdentityManager,
+    HomeButton,
     Point,
     Graphic
-    //FeatureSet,
-    //DataLayer
 ) {
     return declare("", null, {
         config: {},
@@ -124,6 +123,12 @@ function(
                     return 'id=' + layer.id + ' graphicsLayerIds=' + response.map.graphicsLayerIds + ' layerIds=' + response.map.layerIds;
                 }
                 if (this.map.loaded) {
+                    var home = new HomeButton({
+                        map: this.map
+                    }, "homebutton");
+                    home.startup();
+
+
                     geoLocate = new LocateButton({
                         map: this.map,
                         scale: 75000
