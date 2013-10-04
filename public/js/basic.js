@@ -17,11 +17,9 @@ define([
     "dojo/_base/lang",
     "dojo/_base/array",
     "esri/arcgis/utils",
-    //"esri/IdentityManager",
+    "esri/dijit/LocateButton",
     "esri/geometry/Point",
     "esri/graphic"
-    //"esri/tasks/FeatureSet",
-    //"esri/tasks/DataLayer"
 ],
 function(
     ready, 
@@ -30,6 +28,7 @@ function(
     lang,
     array,
     arcgisUtils,
+    LocateButton,
     //IdentityManager,
     Point,
     Graphic
@@ -65,7 +64,6 @@ function(
                 //such as the map, operational layers, popup info and more. This object will also contain
                 //any custom options you defined for the template. In this example that is the 'theme' property.
                 //Here' we'll use it to update the application to match the specified color theme.  
-                //console.log(this.config);
                 this.map = response.map;
                 function makeDarker(color, delta, alpha){
                     function add(channel){
@@ -126,6 +124,12 @@ function(
                     return 'id=' + layer.id + ' graphicsLayerIds=' + response.map.graphicsLayerIds + ' layerIds=' + response.map.layerIds;
                 }
                 if (this.map.loaded) {
+                    geoLocate = new LocateButton({
+                        map: this.map,
+                        scale: 75000
+                    }, "locatebutton");
+                    geoLocate.startup();
+
                     on(this.map, 'click', updateInfo);
                     var closebutton = document.getElementById("closebutton");
                     on(closebutton, 'click', function(){

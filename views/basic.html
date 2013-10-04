@@ -8,7 +8,8 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
     <!--Use protocol relative urls that way if the browser is viewing the page via HTTPS the js/css file will be requested using the HTTPS protocol-->
     <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="http://arcgisjs.azurewebsites.net/esri/3.6compact/js/esri/css/esri.css">
+    <!--link rel="stylesheet" href="http://arcgisjs.azurewebsites.net/esri/3.6compact/js/esri/css/esri.css"-->
+    <link rel="stylesheet" href="http://js.arcgis.com/3.7/js/esri/css/esri.css">
     <link rel="stylesheet" href="http://arcgisjs.azurewebsites.net/esri/3.6compact/js/dojo/dijit/themes/claro/claro.css">
     <!--Load any application specific styles-->
     <link rel="stylesheet" type="text/css" href="/css/basic.css">
@@ -16,6 +17,7 @@
 <body class="claro">
    <!--The ArcGIS API for JavaScript provides bidirectional support.  When viewing the application in an right to left (rtl) language like Hebrew and Arabic the map needs to remain in left-to-right (ltr) mode. Specify this by setting the dir attribute on the div to ltr. --> 
     <div id="mapDiv" dir="ltr">
+        <div id="locatebutton"></div>
         <div id="infobox" class="info">
             <div id="infotext" class="attributes"></div>
             <img id="closebutton" src="/img/iconmonstr-x-mark-icon.svg" width="28px" height="28px" />
@@ -35,7 +37,8 @@
             }]
         };
     </script>
-    <script src="http://arcgisjs.azurewebsites.net/esri/3.6compact.js"></script>
+    <!--script src="http://arcgisjs.azurewebsites.net/esri/3.6compact.js"></script -->
+    <script src="http://js.arcgis.com/3.7compact/"></script>
     <script type="text/javascript">
         require([
             "dojo/on",
